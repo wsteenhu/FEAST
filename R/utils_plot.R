@@ -1,7 +1,7 @@
 #' Plot source contribution per sink
 #' @export
 PlotPerSinkSourceContribution  <- function(SourceNames, source_contribution,
-                                           sink_name = "Example", dir_path, save_plot){
+                                           sink_name = "Example", dir_path = NULL, save_plot){
 
 
   FEAST_per_sink <- data.frame(c(SourceNames),round(source_contribution*100,1))
@@ -45,13 +45,14 @@ PlotPerSinkSourceContribution  <- function(SourceNames, source_contribution,
 #' PlotMultipleSinks with different sources - use this plotting option to plot multiple sinks
 #' each with a different set of sources.
 #' @export
-PlotMultipleSinks<- function(Filename,figures, dir_path){
+PlotMultipleSinks<- function(Filename,figures, dir_path = NULL){
 
   comb_plot <- do.call(grid.arrange,figures)
-  setwd(dir_path)
-  ggsave(filename=paste0(Filename ,"_FEAST.png"), plot = comb_plot ,
-         dpi = 600, width = 9.75, height = 6.1, units = "in")
-
+  if(!is.null(dir_path)) {
+    setwd(dir_path)
+    ggsave(filename=paste0(Filename ,"_FEAST.png"), plot = comb_plot ,
+           dpi = 600, width = 9.75, height = 6.1, units = "in")
+  }
 }
 
 #' PlotSourceContribution
@@ -94,7 +95,7 @@ PlotSourceContribution <- function(SinkNames,
                                    SourceNames,
                                    Same_sources_flag,
                                    mixing_proportions,
-                                   dir_path,
+                                   dir_path = NULL,
                                    Plot_title = "Example",
                                    N){
 
@@ -128,10 +129,11 @@ PlotSourceContribution <- function(SinkNames,
             axis.text.x = element_text(angle = 90, hjust = 1, size=8)) +
       ggtitle(my_sinks)
 
-    setwd(dir_path)
-    ggsave(filename=paste0(my_sinks ,"_FEAST.png"), plot = my_plot ,
-           dpi = 600, width = 8.75, height = 6.1, units = "in")
-
+    if(!is.null(dir_path)){
+      setwd(dir_path)
+      ggsave(filename=paste0(my_sinks ,"_FEAST.png"), plot = my_plot ,
+             dpi = 600, width = 8.75, height = 6.1, units = "in")
+    }
   }
 
   if(Same_sources_flag == 0){
